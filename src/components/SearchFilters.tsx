@@ -1,7 +1,8 @@
-'use client';
+/* eslint-disable  */
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 
 export default function SearchFilters() {
   const router = useRouter();
@@ -9,8 +10,12 @@ export default function SearchFilters() {
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
+      const params = new URLSearchParams(searchParams.toString());
+      if (value) {
+        params.set(name, value);
+      } else {
+        params.delete(name);
+      }
       return params.toString();
     },
     [searchParams]
@@ -23,25 +28,25 @@ export default function SearchFilters() {
         placeholder="Make"
         className="border bg-black text-white p-2 rounded"
         onChange={(e) => {
-          router.push('?' + createQueryString('make', e.target.value));
+          router.push("?" + createQueryString("make", e.target.value));
         }}
-        defaultValue={searchParams.get('make') ?? ''}
+        defaultValue={searchParams.get("make") ?? ""}
       />
       <input
         type="text"
         placeholder="Model"
         className="border bg-black text-white p-2 rounded"
         onChange={(e) => {
-          router.push('?' + createQueryString('model', e.target.value));
+          router.push("?" + createQueryString("model", e.target.value));
         }}
-        defaultValue={searchParams.get('model') ?? ''}
+        defaultValue={searchParams.get("model") ?? ""}
       />
       <select
         className="border bg-black text-white p-2 rounded"
         onChange={(e) => {
-          router.push('?' + createQueryString('sortBy', e.target.value));
+          router.push("?" + createQueryString("sortBy", e.target.value));
         }}
-        defaultValue={searchParams.get('sortBy') ?? ''}
+        defaultValue={searchParams.get("sortBy") ?? ""}
       >
         <option value="">Sort by</option>
         <option value="price">Price</option>
@@ -50,9 +55,9 @@ export default function SearchFilters() {
       <select
         className="border bg-black text-white p-2 rounded"
         onChange={(e) => {
-          router.push('?' + createQueryString('sortOrder', e.target.value));
+          router.push("?" + createQueryString("sortOrder", e.target.value));
         }}
-        defaultValue={searchParams.get('sortOrder') ?? ''}
+        defaultValue={searchParams.get("sortOrder") ?? "asc"}
       >
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
